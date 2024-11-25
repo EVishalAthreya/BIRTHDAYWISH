@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Kiruthika</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+    .dynamic-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .shape {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 102, 102, 0.7);
+      animation: float 10s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0);
+      }
+      50% {
+        transform: translateY(-50px) rotate(180deg);
+      }
+    }
+    h1 {
+      font-size: 28px;
+      text-align: center;
+      color: #ff6f61;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .button-container {
+      margin: 20px;
+      text-align: center;
+    }
+    button {
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #e55b50;
+      transform: scale(1.1);
+    }
+    .story-content {
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.8;
+      padding: 0 20px;
+    }
+    .hidden {
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <!-- Dynamic Background Shapes -->
+  <div class="dynamic-shapes">
+    <div class="shape" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
+    <div class="shape" style="top: 50%; left: 70%; animation-delay: 2s;"></div>
+    <div class="shape" style="top: 80%; left: 20%; animation-delay: 4s;"></div>
+    <div class="shape" style="top: 30%; left: 50%; animation-delay: 6s;"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="welcome">
+    <h1>Click here Kiruthi 🎉</h1>
+    <div class="button-container">
+      <button id="startBtn">✨ Start Your Story ✨</button>
+    </div>
+  </div>
+
+  <div id="storyPage" class="hidden">
+    <div class="story-content" id="storyText"></div>
+    <div class="button-container">
+      <button id="nextBtn" class="hidden">Continue the Story ➡️</button>
+    </div>
+  </div>
+
+  <script>
+    const welcomeDiv = document.getElementById('welcome');
+    const storyPage = document.getElementById('storyPage');
+    const storyText = document.getElementById('storyText');
+    const startBtn = document.getElementById('startBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // Story Content as Lines
+    const firstStoryLines = [
+      "It all started in June 2018, SKP Class 8th. 😂",
+      "You entered the room wearing glasses that made you look like a nerd 🤓😂.",
+      "The teacher introduced you to the entire class. 😂",
+      "I was so excited to meet you! 😂"
+    ];
+
+    const secondStoryLines = [
+      "Then, we started talking (idk how though 😅).",
+      "Haha, you're such an idiot sometimes! 😂",
+      "You always wanted to fight with me over the smallest things."
+    ];
+
+    const thirdStoryLines = [
+      "One day, a dance competition was announced! 💃🕺",
+      "I said I was better at dancing than you (which is 100% true! 😎).",
+      "But you refused, acting like you were some Ileana-level dancer! 😂.",
+      "That was one fight I'll never forget! 🥳",
+      "Unfortunately, I had to leave the school soon after that.",
+      "And so, our school story came to an end."
+    ];
+
+    const fourthStoryLines = [
+      "After school, we were talking too much on calls and WhatsApp! 📱😂",
+      "Brooo, we had so many quarrels about silly things. 😂",
+      "And then, the tea kada moment! Hahaha, unforgettable! ☕😂"
+    ];
+
+    const finalStoryLines = [
+      "And finally, Happy Birthday, idiot! 🎂🎉",
+      "Stay happy forever, okay? 😊",
+      "P.S. I think the story will continue... 😏",
+      "Bye, Puppyyyyyyyyyyyy! 😂"
+    ];
+
+    let currentPart = 1;
+
+    // Show story line by line
+    function typeStoryLine(lines, element, callback) {
+      let currentLine = 0;
+      function showNextLine() {
+        if (currentLine < lines.length) {
+          const line = lines[currentLine];
+          typeText(line, element, () => {
+            currentLine++;
+            setTimeout(showNextLine, 1000);
+          });
+        } else if (callback) {
+          callback();
+        }
+      }
+      showNextLine();
+    }
+
+    // Type text letter by letter
+    function typeText(text, element, callback) {
+      let i = 0;
+      const speed = 50;
+      const newLine = document.createElement("p");
+      element.appendChild(newLine);
+
+      function type() {
+        if (i < text.length) {
+          newLine.innerHTML += text[i];
+          i++;
+          setTimeout(type, speed);
+        } else {
+          if (callback) callback();
+        }
+      }
+      type();
+    }
+
+    startBtn.addEventListener('click', () => {
+      welcomeDiv.style.display = 'none';
+      storyPage.classList.remove('hidden');
+      typeStoryLine(firstStoryLines, storyText, () => {
+        nextBtn.classList.remove('hidden');
+      });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      storyText.innerHTML = ""; // Clear previous story
+      if (currentPart === 1) {
+        typeStoryLine(secondStoryLines, storyText, () => {
+          nextBtn.innerText = "➡️ Continue to the Next Story";
+        });
+        currentPart++;
+      } else if (currentPart === 2) {
+        typeStoryLine(thirdStoryLines, storyText, () => {
+          nextBtn.innerText = "➡️ Tea Kada Memories";
+        });
+        currentPart++;
+      } else if (currentPart === 3) {
+        typeStoryLine(fourthStoryLines, storyText, () => {
+          nextBtn.innerText = "🎉 Final Message";
+        });
+        currentPart++;
+      } else if (currentPart === 4) {
+        typeStoryLine(finalStoryLines, storyText, () => {
+          nextBtn.style.display = "none"; // Hide the button after final story
+        });
+        currentPart++;
+      }
+    });
+  </script>
+</body>
+</html>
